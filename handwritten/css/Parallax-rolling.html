@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>视差滚动</title>
+        <!-- <script src="./jquery.js"></script> -->
+    </head>
+    <body>
+        <style>
+            /* .tabs{
+                width: 300px;
+                height: 60px;
+                margin: 0 auto;
+                display: flex;
+                justify-content: center;
+            }
+            .tabs .text{
+                width: 150px;
+                height: 60px;
+                line-height: 60px;
+                font-size: 20px;
+                text-align: center;
+                cursor: pointer;
+            }
+            .tabs .active{
+                background-color: yellowgreen;
+            }
+            .block {
+                height: 100vh;
+                background: rgba(0, 0, 0, 0.7);
+                color: #fff;
+                line-height: 100vh;
+                text-align: center;
+                font-size: 20vh;
+            }
+
+            .a-img1 {
+                background-image: url(https://images.pexels.com/photos/1097491/pexels-photo-1097491.jpeg);
+                background-attachment: fixed;
+                background-size: cover;
+                background-position: center center;
+            }
+
+            .a-img2 {
+                background-image: url(https://images.pexels.com/photos/2437299/pexels-photo-2437299.jpeg);
+                background-attachment: fixed;
+                background-size: cover;
+                background-position: center center;
+            }
+
+            .a-img3 {
+                background-image: url(https://images.pexels.com/photos/1005417/pexels-photo-1005417.jpeg);
+                background-attachment: fixed;
+                background-size: cover;
+                background-position: center center;
+            } */
+
+            /* transform */
+            html {
+                overflow: hidden;
+                height: 100%
+            }
+
+            body {
+                /* 视差元素的父级需要3D视角 */
+                perspective: 1px;
+                transform-style: preserve-3d; 
+                height: 100%;
+                overflow-y: scroll;
+                overflow-x: hidden;
+            }
+            #app{
+                width: 100vw;
+                height:200vh;
+                background:skyblue;
+                padding-top:100px;
+            }
+            .one{
+                width:500px;
+                height:200px;
+                background:#409eff;
+                transform: translateZ(0px);
+                margin-bottom: 50px;
+            }
+            .two{
+                width:500px;
+                height:200px;
+                background:#67c23a;
+                transform: translateZ(-1px);
+                margin-bottom: 150px;
+            }
+            .three{
+                width:500px;
+                height:200px;
+                background:#e6a23c;
+                transform: translateZ(-2px);
+                margin-bottom: 150px;
+            }
+        </style>
+        <!-- <div class="tabs">
+            <div class="text active">css实现</div>
+            <div class="text">transform实现</div>
+        </div>
+        <div id="cssBlock"> -->
+            <!-- <div class="block a-text">1</div>
+            <div class="block a-img1">2</div>
+            <div class="block a-text">3</div>
+            <div class="block a-img2">4</div>
+            <div class="block a-text">5</div>
+            <div class="block a-img3">6</div>
+            <div class="block a-text">7</div> -->
+        <!-- </div>
+        <div id="transformBlock"> -->
+            <div id="app">
+                <div class="one">one</div>
+                <div class="two">two</div>
+                <div class="three">three</div>
+            </div>
+        <!-- </div> -->
+        
+        <!-- <script>
+            $(".text").click(function(){
+                if(!$(this).hasClass('active')){
+                    $(this).siblings().removeClass('active');
+                    $(this).addClass('active');
+                    if($(this).index() === 0){
+                        $("#cssBlock").show();
+                        $("#transformBlock").hide();
+                    }else{
+                        $("#cssBlock").hide();
+                        $("#transformBlock").show();
+                    }
+                }
+            })
+        </script> -->
+    </body>
+</html>

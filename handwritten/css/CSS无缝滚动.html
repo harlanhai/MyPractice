@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>三角形</title>
+    <style>
+      .scroll-container {
+        width: 300px; /* 容器宽度 */
+        overflow: hidden; /* 超出部分隐藏 */
+        white-space: nowrap; /* 防止文字换行 */
+        position: relative;
+      }
+
+      .scroll-content {
+        display: inline-block;
+        white-space: nowrap; /* 子元素不换行 */
+        animation: scroll 10s linear infinite; /* 无限滚动动画 */
+      }
+
+      @keyframes scroll {
+        from {
+          transform: translateX(100%); /* 初始位置在容器外 */
+        }
+        to {
+          transform: translateX(-100%); /* 滚动到容器外 */
+        }
+      }
+
+      .scroll-content:hover {
+        animation-play-state: paused; /* 鼠标悬停时暂停滚动 */
+      }
+
+      .scroll-vertical {
+        width: 200px;
+        height: 100px;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .scroll-vertical .content {
+        display: flex;
+        flex-direction: column;
+        animation: vertical-scroll 5s linear infinite;
+      }
+
+      @keyframes vertical-scroll {
+        from {
+          transform: translateY(0);
+        }
+        to {
+          transform: translateY(-100%);
+        }
+      }
+      /* 🎯 重点解释
+          双内容滚动方式可以确保无缝衔接，不会出现空白断层。
+          animation: linear infinite 表示匀速无限滚动。
+          鼠标悬停可以通过 animation-play-state: paused 来实现暂停。
+     */
+    </style>
+  </head>
+  <body>
+    <h2>水平滚动</h2>
+    <div class="scroll-container">
+      <div class="scroll-content">
+        <div>公告1</div>
+        <div>公告2</div>
+        <div>公告3</div>
+        <div>公告4</div>
+      </div>
+    </div>
+    <h2>垂直滚动</h2>
+    <div class="scroll-vertical">
+      <div class="content">
+        <div>新闻1</div>
+        <div>新闻2</div>
+        <div>新闻3</div>
+        <div>新闻4</div>
+      </div>
+      <div class="content">
+        <div>新闻1</div>
+        <div>新闻2</div>
+        <div>新闻3</div>
+        <div>新闻4</div>
+      </div>
+    </div>
+  </body>
+</html>
