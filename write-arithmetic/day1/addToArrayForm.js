@@ -9,7 +9,7 @@
  *  0 <= num[i] <= 9
  *  num 不包含任何前导零，除了零本身
  *  1 <= k <= 104
- */ 
+ */
 /**
  * @param {number[]} num
  * @param {number} k
@@ -17,10 +17,11 @@
  */
 // 解法一，使用for循环逐位相加解法
 const addToArrayForm1 = function (num, k) {
-  const len = num.length, resArr = [];
+  const len = num.length,
+    resArr = [];
   for (let i = len - 1; i >= 0; --i) {
     // 让数组最后一位和目标数组k的个位相加
-    let sum = num[i] + k % 10;
+    let sum = num[i] + (k % 10);
     // 去掉数字k的个位数
     k = Math.floor(k / 10);
     // 当前位置的数大于10需要进一，把他加到新的数字k上
@@ -38,35 +39,36 @@ const addToArrayForm1 = function (num, k) {
   return resArr.reverse();
 };
 // 解法二，使用for循环逐位相加解法
-var addToArrayForm2 = function(num, k) {
+var addToArrayForm2 = function (num, k) {
   const res = [];
   const n = num.length;
   for (let i = n - 1; i >= 0 || k > 0; --i, k = Math.floor(k / 10)) {
-      if (i >= 0) {
-          k += num[i];
-      }
-      res.push(k % 10);
+    if (i >= 0) {
+      k += num[i];
+    }
+    res.push(k % 10);
   }
   res.reverse();
   return res;
 };
 
 // 解法三，使用while循环逐位相加解法
-const addToArrayForm3 = function(num, k) {
+const addToArrayForm3 = function (num, k) {
   let res = [];
-  let i = num.length - 1, carry = 0;
+  let i = num.length - 1,
+    carry = 0;
   // 当数组num和k都循环完后跳出
-  while(i >= 0 || k !== 0) {
-      const num1 = i >= 0 ? num[i] : 0;
-      const num2 = k !== 0 ? k % 10 : 0;
-      const sum = num1 + num2 + carry;
-      // 把相加的个位数放到数组中
-      res.push(sum % 10);
-      // 获取十位上的数字，向前一位进
-      carry = Math.floor(sum / 10);
-      i--;
-      // k 删除个位数字
-      k = Math.floor(k / 10);
+  while (i >= 0 || k !== 0) {
+    const num1 = i >= 0 ? num[i] : 0;
+    const num2 = k !== 0 ? k % 10 : 0;
+    const sum = num1 + num2 + carry;
+    // 把相加的个位数放到数组中
+    res.push(sum % 10);
+    // 获取十位上的数字，向前一位进
+    carry = Math.floor(sum / 10);
+    i--;
+    // k 删除个位数字
+    k = Math.floor(k / 10);
   }
   // 如果循环最后大于10时，carry的值直接放到数组最后
   if (carry) res.push(carry);
