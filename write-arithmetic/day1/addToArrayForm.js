@@ -16,7 +16,7 @@
  * @return {number[]}
  */
 // 解法一，使用for循环逐位相加解法
-const addToArrayForm1 = function (num, k) {
+const addToArrayForm = function (num, k) {
   const len = num.length,
     resArr = [];
   for (let i = len - 1; i >= 0; --i) {
@@ -38,22 +38,9 @@ const addToArrayForm1 = function (num, k) {
   }
   return resArr.reverse();
 };
-// 解法二，使用for循环逐位相加解法
-var addToArrayForm2 = function (num, k) {
-  const res = [];
-  const n = num.length;
-  for (let i = n - 1; i >= 0 || k > 0; --i, k = Math.floor(k / 10)) {
-    if (i >= 0) {
-      k += num[i];
-    }
-    res.push(k % 10);
-  }
-  res.reverse();
-  return res;
-};
 
-// 解法三，使用while循环逐位相加解法
-const addToArrayForm3 = function (num, k) {
+// 解法二，使用while循环逐位相加解法
+const addToArrayForm2 = function (num, k) {
   let res = [];
   let i = num.length - 1,
     carry = 0;

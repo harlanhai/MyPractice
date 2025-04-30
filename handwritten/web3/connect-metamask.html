@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>链接MetaMask</title>
+</head>
+<body>
+  <button id="myButton">connect MetaMask</button>
+  <div id="balance"></div>
+  <script>
+    document.getElementById('myButton').addEventListener('click', function(event) {
+      console.log('按钮被点击了！');
+      connectMetamaskAndGetBalance();
+    });
+    async function connectMetamaskAndGetBalance() {
+      // Check whether the MetaMask exists.
+      if(typeof window.ethereum !== undefined) {
+        console.log('MetaMask was installed!');
+        try{
+          const accounts = await ethereum.request({
+            method: 'eth_requestAccounts'
+          });
+          console.log(accounts)
+          const firstAccount = accounts[0];
+          // Get frist account balance.
+          const balance = await ethereum.request({
+            method: 'eth_getBalance',
+            params: [firstAccount, 'latest']
+          })
+
+          // Convert balance wei to eth. 
+          console.log(balance)
+          const balanceWei = BigInt(balance);
+          const balanceInEth = Number(balanceWei) / 1e18;
+          console.log(`Balance: ${balanceInEth} ETH`);
+
+          // Display the balance on the page.
+          document.getElementById("balance").innerText = `Balance: ${balanceInEth} ETH`;
+        } catch(error) {
+          console.error('Error connecting to MetaMask:', error)
+        }
+      } else {
+        console.log('Please install MetaMask')
+      } 
+    }
+  </script>
+</body>
+</html>
