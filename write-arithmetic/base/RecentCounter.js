@@ -49,7 +49,7 @@ RecentCounter.prototype.ping = function(t) {
   this.tQueue.push(t);
   // 判断队列中是否有超出3000ms的请求，有则移除
   while(this.tQueue.length > 0 && this.tQueue[0] < (t - 3000)) {
-      this.tQueue.shift();
+    this.tQueue.shift();
   }
   // 返回队列长度
   return this.tQueue.length;

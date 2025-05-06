@@ -14,19 +14,19 @@
     空间复杂度：O(1)。
  */
 var reverseList = function(head) {
-  let prev = null;
-  let curr = head;
-  while (curr) {
+  let preNode = null;
+  let currentNode = head;
+  while (currentNode) {
       // Temporarily stores the next node.
-      const next = curr.next;
+      const next = currentNode.next;
       // Set next node for current node.
-      curr.next = prev;
+      currentNode.next = preNode;
       // Set previous node to equal the current node.
-      prev = curr;
+      preNode = currentNode;
       // Set current node to equal the next node.
-      curr = next;
+      currentNode = next;
   }
-  return prev;
+  return preNode;
 };
 /**
  * @param {ListNode} head
