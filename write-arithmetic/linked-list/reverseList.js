@@ -9,6 +9,10 @@
  * @param {ListNode} head
  * @return {ListNode}
  * 方法一：迭代
+ *  1. 把当前节点的next指向前节点；
+ *  2. 把前节点替换成当前节点；
+ *  3. 当前节点的next等于当前节点；
+ *  4. 返回前节点。
  * 复杂度分析
     时间复杂度：O(n)，其中 n 是链表的长度。需要遍历链表一次。
     空间复杂度：O(1)。
@@ -17,13 +21,13 @@ var reverseList = function(head) {
   let preNode = null;
   let currentNode = head;
   while (currentNode) {
-      // Temporarily stores the next node.
+      // 临时保存下一个节点
       const next = currentNode.next;
-      // Set next node for current node.
+      // 设置下一个节点的前节点
       currentNode.next = preNode;
-      // Set previous node to equal the current node.
+      // 前节点更新为当前节点
       preNode = currentNode;
-      // Set current node to equal the next node.
+      // 当前节点更新为下一个节点
       currentNode = next;
   }
   return preNode;
