@@ -5,13 +5,6 @@
  * @param {number[]} nums1
  * @param {number[]} nums2
  * @return {number[]}
- * 解题思路：
- * 解法一：
- *  1. 通过Set对象来去重数组
- *  2. 通过filter方法来过滤数组，返回交集
- * 解法二：
- *  1. 选择较小的数组创建 Set，减少空间占用
- *  2. 遍历另一个数组，判断是否在 Set 中
  */
 // 解法一
 var intersection = function (nums1, nums2) {
@@ -72,7 +65,15 @@ function intersection(nums1, nums2) {
 // nums1 = [1,2,2,1], nums2 = [2,2]
 (nums1 = [4, 9, 5]), (nums2 = [9, 4, 9, 8, 4]);
 console.log(intersection(nums1, nums2));
-/*
+/* 
+解题思路：
+ 解法一：
+  1. 通过Set对象来去重数组
+  2. 通过filter方法来过滤数组，返回交集
+ 解法二：
+  1. 选择较小的数组创建 Set，减少空间占用
+  2. 遍历另一个数组，判断是否在 Set 中
+  
 复杂度分析
 解法一（Set + filter）：
   时间复杂度：O(m + n)，m和n分别是两个数组的长度，Set的构造和filter方法都需要遍历一次数组。

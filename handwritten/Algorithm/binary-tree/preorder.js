@@ -24,18 +24,18 @@ function TreeNode(val, left, right) {
  *  时间复杂度：由于递归的次数是所有二叉树节点，所以复杂度为O(n)
  *  空间复杂度：由于递归需要一个数组存储所有二叉树节点的值，所以复杂度也为O(n)
  */
-// var preorderTraversal = function (root) {
-//   const res = [];
-//   function preorder(node) {
-//     console.log(node)
-//     if(node === null) return;
-//     res.push(node.val);
-//     preorder(node.left);
-//     preorder(node.right)
-//   }
-//   preorder(root);
-//   return res;
-// };
+var preorderTraversal = function (root) {
+  const res = [];
+  function preorder(node) {
+    console.log(node)
+    if(node === null) return;
+    res.push(node.val);
+    preorder(node.left);
+    preorder(node.right)
+  }
+  preorder(root);
+  return res;
+};
 /**
  * @param {TreeNode} root
  * @return {number[]}
