@@ -103,8 +103,8 @@ const node4 = new TreeNode(4, [node7]);
 const root = new TreeNode(1, [node2, node3, node4]);
 
 // 测试遍历算法
-// console.log("深度优先遍历（递归）:", dfsRecursive(root));
-console.log("深度优先遍历（迭代）:", dfsIterative(root));
+console.log("深度优先遍历（递归）:", dfsRecursive(root));
+// console.log("深度优先遍历（迭代）:", dfsIterative(root));
 // console.log("广度优先遍历:", bfs(root));
 
 // ---------------------- 二叉树 -----------------------------
@@ -331,12 +331,12 @@ const binaryRoot = new BinaryTreeNode(
   new BinaryTreeNode(3, null, new BinaryTreeNode(6))
 );
 
-console.log('\n二叉树遍历结果:');
-console.log('前序遍历-递归:', preorderTraversalTraverse(binaryRoot));
-console.log('前序遍历-栈:', preorderTraversalStack(binaryRoot));
-console.log('中序遍历:', inorderTraversalRecursion(binaryRoot));
-console.log('中序遍历:', inorderTraversalStack(binaryRoot));
-console.log('后序遍历:', postorderTraversalRecursion(binaryRoot));
-console.log('后序遍历:', postorderTraversalStack1(binaryRoot));
-console.log('后序遍历:', postorderTraversalStack2(binaryRoot));
-console.log('层序遍历:', levelOrder(binaryRoot));
+// console.log('\n二叉树遍历结果:');
+// console.log('前序遍历-递归:', preorderTraversalTraverse(binaryRoot));
+// console.log('前序遍历-栈:', preorderTraversalStack(binaryRoot));
+// console.log('中序遍历:', inorderTraversalRecursion(binaryRoot));
+// console.log('中序遍历:', inorderTraversalStack(binaryRoot));
+// console.log('后序遍历:', postorderTraversalRecursion(binaryRoot));
+// console.log('后序遍历:', postorderTraversalStack1(binaryRoot));
+// console.log('后序遍历:', postorderTraversalStack2(binaryRoot));
+// console.log('层序遍历:', levelOrder(binaryRoot));
