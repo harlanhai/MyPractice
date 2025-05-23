@@ -69,12 +69,24 @@ var preorderTraversal = function (root) {
   return res;
 };
 
-// To create binary tree [1,null,2,3]
-//    1
-//     \
-//      2
-//       \
-//        3
-// const root = new TreeNode(1, undefined, new TreeNode(2, undefined, new TreeNode(3)));
-const root = new TreeNode(1, undefined, new TreeNode(2, undefined, new TreeNode(3)));
-console.log('get preorderTraversal: ', preorderTraversal(root));
+// 示例用法
+function createExampleTree() {
+  /*
+        1
+       / \
+      2   3
+     / \   \
+    4   5   6
+  */
+  const root = new CreateTree(1);
+  root.left = new CreateTree(2);
+  root.right = new CreateTree(3);
+  root.left.left = new CreateTree(4);
+  root.left.right = new CreateTree(5);
+  root.right.right = new CreateTree(6);
+  return root;
+}
+
+// 测试
+const tree = createExampleTree();
+console.log("先序遍历:", preorderTraversal(tree)); // 应输出 [1, 2, 4, 5, 3, 6]

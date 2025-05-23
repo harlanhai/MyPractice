@@ -8,63 +8,6 @@ class CreateTree {
 }
 
 /**
- * 树的先序遍历（根->左->右）:
- *  1. 用一个栈来保存节点
- *  2. 首先把根节点入栈，
- *  3. 然后循环栈，弹出节点时立即访问，然后将右子节点和左子节点依次入栈（右节点先入栈，这样左节点会先被处理）
- */
-// 深度优先遍历 - 前序遍历（栈）
-function preorderTraversal(root) {
-  if (!root) return [];
-  // 初始化栈
-  let stackTree = [root];
-  // 保存遍历结果的数组
-  const result = [];
-  // 栈循环完后结束
-  while (stackTree.length > 0) {
-    const curNode = stackTree.pop(); // 获取栈顶节点
-    if (curNode === null) return;
-    result.push(curNode.val); // 访问根节点
-    // 先进右节点
-    if (curNode.right) stackTree.push(curNode.right);
-    // 再进左节点
-    if (curNode.left) stackTree.push(curNode.left);
-  }
-  return result;
-}
-
-/**
- * 树的中序遍历（左->根->右）:
- *  1. 使用一个栈存储节点, 定义一个指针 current node 来追踪当前位置
- *  2. while 循环把所有左节点入栈，然后弹出访问，再转向右节点
- *  3. 如果右节点存在，则继续向左走，直到没有左子树为止
- */
-function inorderTraversal(root) {
-  if (!root) return [];
-  // 初始化栈
-  let stackTree = [];
-  // 保存遍历结果的数组
-  const result = [];
-  // 当前节点
-  let curNode = root;
-  // 根据当前节点和栈的状态进行循环
-  while (curNode || stackTree.length > 0) {
-    // 把所有的左节点入栈
-    while (curNode) {
-      stackTree.push(curNode);
-      curNode = curNode.left;
-    }
-    // 获取栈顶节点
-    curNode = stackTree.pop();
-    // 把当前节点值放入结果数组
-    result.push(curNode.val);
-    // 最后把当前节点替换成右节点
-    curNode = curNode.right;
-  }
-  return result;
-}
-
-/**
  * 深度优先遍历-后序遍历（双栈）
  * 解题思路：
  *  1. 定义两个栈，
@@ -129,9 +72,6 @@ function postorderTraversal2(root) {
   }
   return result;
 }
-// 复杂度分析：
-// 所有这些迭代实现的时间复杂度都是 O(n)，其中n是节点数
-// 所有这些迭代实现的空间复杂度是 O(h)，其中 h 是树的高度或宽度。
 
 // 示例用法
 function createExampleTree() {
@@ -153,7 +93,5 @@ function createExampleTree() {
 
 // 测试
 const tree = createExampleTree();
-console.log("先序遍历:", preorderTraversal(tree)); // 应输出 [1, 2, 4, 5, 3, 6]
-console.log("中序遍历:", inorderTraversal(tree));  // 应输出 [4, 2, 5, 1, 3, 6]
 console.log("后序遍历:", postorderTraversal1(tree)); // 应输出 [4, 5, 2, 6, 3, 1]
 console.log("后序遍历(双栈法):", postorderTraversal2(tree)); // 应输出 [4, 5, 2, 6, 3, 1]
