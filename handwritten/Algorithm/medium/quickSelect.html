@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>快速选择算法演示</title>
+    <style>
+      body {
+        font-family: 'Segoe UI', sans-serif;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+      }
+
+      .container {
+        background: white;
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      h1 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 30px;
+        font-size: 2.5em;
+      }
+
+      .controls {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 30px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      input,
+      button {
+        padding: 10px 15px;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        font-size: 16px;
+      }
+
+      button {
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        color: white;
+        border: none;
+        cursor: pointer;
+        transition: transform 0.2s;
+      }
+
+      button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .array-container {
+        margin: 20px 0;
+        min-height: 80px;
+      }
+
+      .array-title {
+        font-weight: bold;
+        margin-bottom: 10px;
+        font-size: 18px;
+        color: #333;
+      }
+
+      .array-display {
+        display: flex;
+        gap: 5px;
+        flex-wrap: wrap;
+        margin-bottom: 15px;
+      }
+
+      .array-element {
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid #333;
+        border-radius: 8px;
+        font-weight: bold;
+        font-size: 16px;
+        transition: all 0.3s ease;
+      }
+
+      .pivot {
+        background-color: #ff6b6b;
+        color: white;
+        transform: scale(1.1);
+      }
+
+      .left-part {
+        background-color: #51cf66;
+        color: white;
+      }
+
+      .right-part {
+        background-color: #339af0;
+        color: white;
+      }
+
+      .target {
+        background-color: #ffd43b;
+        color: #333;
+        border: 3px solid #ff6b6b;
+        animation: pulse 1s infinite;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      .step-info {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 10px;
+        margin: 20px 0;
+        border-left: 5px solid #667eea;
+      }
+
+      .step-info h3 {
+        margin-top: 0;
+        color: #667eea;
+      }
+
+      .result {
+        background: linear-gradient(45deg, #51cf66, #40c057);
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        font-size: 20px;
+        font-weight: bold;
+        margin-top: 20px;
+      }
+
+      .code-section {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 10px;
+        margin: 20px 0;
+        font-family: 'Courier New', monospace;
+        overflow-x: auto;
+      }
+
+      .algorithm-explanation {
+        background: #e3f2fd;
+        padding: 20px;
+        border-radius: 10px;
+        margin: 20px 0;
+        border-left: 5px solid #2196f3;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🚀 快速选择算法可视化</h1>
+
+      <div class="controls">
+        <label
+          >数组:
+          <input type="text" id="arrayInput" value="3,6,8,10,1,2,1" placeholder="用逗号分隔数字" />
+        </label>
+        <label>找第 <input type="number" id="kInput" value="4" min="1" style="width: 60px" /> 大的元素 </label>
+        <button onclick="startDemo()">开始演示</button>
+        <button onclick="reset()">重置</button>
+      </div>
+
+      <div class="algorithm-explanation">
+        <h3>算法原理</h3>
+        <p><strong>快速选择算法</strong>基于快速排序的分区思想：</p>
+        <ol>
+          <li><strong>选择基准元素(pivot)</strong>：通常选择第一个元素或随机元素</li>
+          <li><strong>分区操作</strong>：将数组分为三部分：小于pivot的、等于pivot的、大于pivot的</li>
+          <li><strong>判断位置</strong>：根据pivot的最终位置决定在哪部分继续查找</li>
+          <li><strong>递归查找</strong>：只对包含目标元素的部分进行递归</li>
+        </ol>
+        <p><strong>时间复杂度</strong>：平均O(n)，最坏O(n²) | <strong>空间复杂度</strong>：O(1)</p>
+      </div>
+
+      <div id="stepContainer"></div>
+
+      <div class="code-section">
+        <h3>JavaScript实现代码</h3>
+        <pre><code>function quickSelect(nums, k) {
+    function partition(left, right, kSmallest) {
+        // 1. 选择pivot (这里选择第一个元素)
+        const pivot = nums[left];
+        let i = left + 1, j = right;
+        
+        // 2. 双指针分区
+        while (i <= j) {
+            if (nums[i] < pivot && nums[j] > pivot) {
+                [nums[i], nums[j]] = [nums[j], nums[i]];
+                i++; j--;
+            }
+            if (nums[i] >= pivot) i++;
+            if (nums[j] <= pivot) j--;
+        }
+        
+        // 3. 将pivot放到正确位置
+        [nums[left], nums[j]] = [nums[j], nums[left]];
+        
+        // 4. 递归查找
+        if (j === kSmallest) return nums[j];
+        else if (j < kSmallest) return partition(j + 1, right, kSmallest);
+        else return partition(left, j - 1, kSmallest);
+    }
+    
+    // 第k大 = 第(n-k+1)小
+    return partition(0, nums.length - 1, nums.length - k);
+}</code></pre>
+      </div>
+    </div>
+
+    <script>
+      let originalArray = [];
+      let currentStep = 0;
+      let steps = [];
+
+      function parseArray() {
+        const input = document.getElementById('arrayInput').value;
+        return input
+          .split(',')
+          .map((num) => parseInt(num.trim()))
+          .filter((num) => !isNaN(num));
+      }
+
+      function startDemo() {
+        originalArray = parseArray();
+        const k = parseInt(document.getElementById('kInput').value);
+
+        if (originalArray.length === 0 || k < 1 || k > originalArray.length) {
+          alert('请输入有效的数组和k值！');
+          return;
+        }
+
+        steps = [];
+        currentStep = 0;
+
+        // 模拟快速选择过程
+        const nums = [...originalArray];
+        quickSelectWithSteps(nums, 0, nums.length - 1, nums.length - k, k);
+
+        displayStep();
+      }
+
+      function quickSelectWithSteps(nums, left, right, targetIndex, k) {
+        if (left >= right) {
+          steps.push({
+            array: [...nums],
+            left,
+            right,
+            pivot: -1,
+            description: `找到结果：第${k}大的元素是 ${nums[targetIndex]}`,
+            result: nums[targetIndex],
+            targetIndex,
+          });
+          return nums[targetIndex];
+        }
+
+        // 选择pivot
+        const pivotIndex = left;
+        const pivot = nums[pivotIndex];
+
+        steps.push({
+          array: [...nums],
+          left,
+          right,
+          pivot: pivotIndex,
+          description: `步骤 ${steps.length + 1}: 选择pivot = ${pivot}，范围 [${left}, ${right}]`,
+          phase: 'pivot',
+        });
+
+        // 分区操作
+        let i = left + 1,
+          j = right;
+        const partitionSteps = [];
+
+        while (i <= j) {
+          if (nums[i] < pivot && nums[j] > pivot) {
+            [nums[i], nums[j]] = [nums[j], nums[i]];
+            partitionSteps.push({
+              array: [...nums],
+              left,
+              right,
+              pivot: pivotIndex,
+              i,
+              j,
+              description: `交换 nums[${i}]=${nums[j]} 和 nums[${j}]=${nums[i]}`,
+            });
+            i++;
+            j--;
+          } else {
+            if (nums[i] >= pivot) i++;
+            if (nums[j] <= pivot) j--;
+          }
+        }
+
+        // 将pivot放到正确位置
+        [nums[left], nums[j]] = [nums[j], nums[left]];
+
+        steps.push({
+          array: [...nums],
+          left,
+          right,
+          pivot: j,
+          description: `分区完成：pivot ${pivot} 的最终位置是 ${j}`,
+          phase: 'partitioned',
+          pivotFinalPos: j,
+        });
+
+        // 判断下一步
+        if (j === targetIndex) {
+          steps.push({
+            array: [...nums],
+            left,
+            right,
+            pivot: j,
+            description: `找到目标！第${k}大的元素是 ${nums[j]}`,
+            result: nums[j],
+            targetIndex: j,
+          });
+          return nums[j];
+        } else if (j < targetIndex) {
+          steps.push({
+            array: [...nums],
+            left,
+            right,
+            pivot: j,
+            description: `目标在右半部分，继续在 [${j + 1}, ${right}] 中查找`,
+            phase: 'go_right',
+            nextLeft: j + 1,
+            nextRight: right,
+          });
+          return quickSelectWithSteps(nums, j + 1, right, targetIndex, k);
+        } else {
+          steps.push({
+            array: [...nums],
+            left,
+            right,
+            pivot: j,
+            description: `目标在左半部分，继续在 [${left}, ${j - 1}] 中查找`,
+            phase: 'go_left',
+            nextLeft: left,
+            nextRight: j - 1,
+          });
+          return quickSelectWithSteps(nums, left, j - 1, targetIndex, k);
+        }
+      }
+
+      function displayStep() {
+        const container = document.getElementById('stepContainer');
+        container.innerHTML = '';
+
+        if (currentStep >= steps.length) return;
+
+        const step = steps[currentStep];
+
+        const stepDiv = document.createElement('div');
+        stepDiv.className = 'step-info';
+
+        stepDiv.innerHTML = `
+                <h3>${step.description}</h3>
+                <div class="array-display">
+                    ${step.array
+                      .map((num, index) => {
+                        let className = 'array-element';
+                        if (index === step.pivot && step.phase !== 'partitioned') {
+                          className += ' pivot';
+                        } else if (step.result !== undefined && index === step.targetIndex) {
+                          className += ' target';
+                        } else if (step.phase === 'partitioned') {
+                          if (index < step.pivotFinalPos) className += ' left-part';
+                          else if (index > step.pivotFinalPos) className += ' right-part';
+                          else className += ' pivot';
+                        }
+                        return `<div class="${className}">${num}</div>`;
+                      })
+                      .join('')}
+                </div>
+                ${
+                  step.result !== undefined
+                    ? `<div class="result">🎉 找到答案：${step.result}</div>`
+                    : `<button onclick="nextStep()" style="margin-top: 10px;">下一步</button>`
+                }
+            `;
+
+        container.appendChild(stepDiv);
+      }
+
+      function nextStep() {
+        currentStep++;
+        displayStep();
+      }
+
+      function reset() {
+        document.getElementById('stepContainer').innerHTML = '';
+        currentStep = 0;
+        steps = [];
+      }
+
+      // 初始化
+      startDemo();
+    </script>
+  </body>
+</html>
