@@ -27,7 +27,6 @@ function TreeNode(val, left, right) {
 var preorderTraversal = function (root) {
   const res = [];
   function preorder(node) {
-    console.log(node)
     if(node === null) return;
     res.push(node.val);
     preorder(node.left);
